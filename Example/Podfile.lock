@@ -1,0 +1,22 @@
+PODS:
+  - FormValidators (0.1.0)
+  - Nimble (5.1.1)
+  - Quick (1.0.0)
+
+DEPENDENCIES:
+  - FormValidators (from `../`)
+  - Nimble (~> 5.1.1)
+  - Quick (~> 1.0.0)
+
+EXTERNAL SOURCES:
+  FormValidators:
+    :path: ../
+
+SPEC CHECKSUMS:
+  FormValidators: d2133bdccf9deaaf34cc8c4e07969f7b7ac5bff7
+  Nimble: 415e3aa3267e7bc2c96b05fa814ddea7bb686a29
+  Quick: 8024e4a47e6cc03a9d5245ef0948264fc6d27cff
+
+PODFILE CHECKSUM: e0019c6d397a97741f170b8ecdffe7f79a982b0e
+
+COCOAPODS: 1.2.1

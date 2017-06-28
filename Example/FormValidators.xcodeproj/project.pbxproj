@@ -31,10 +31,10 @@
 		18D6ED1A37A80C4297023E3B /* Pods-FormValidators_Example.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-FormValidators_Example.debug.xcconfig"; path = "Pods/Target Support Files/Pods-FormValidators_Example/Pods-FormValidators_Example.debug.xcconfig"; sourceTree = "<group>"; };
 		1903E900F0C34E13AE19224B /* Pods_FormValidators_Example.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = Pods_FormValidators_Example.framework; sourceTree = BUILT_PRODUCTS_DIR; };
 		205AAB362A69ADE145A76AFF /* Pods-FormValidators_Example.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-FormValidators_Example.release.xcconfig"; path = "Pods/Target Support Files/Pods-FormValidators_Example/Pods-FormValidators_Example.release.xcconfig"; sourceTree = "<group>"; };
-		33C3524826C9A73446A1AD5A /* README.md */ = {isa = PBXFileReference; includeInIndex = 1; name = README.md; path = ../README.md; sourceTree = "<group>"; };
-		37C1B40978C90623C40C1858 /* FormValidators.podspec */ = {isa = PBXFileReference; includeInIndex = 1; name = FormValidators.podspec; path = ../FormValidators.podspec; sourceTree = "<group>"; };
+		33C3524826C9A73446A1AD5A /* README.md */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = net.daringfireball.markdown; name = README.md; path = ../README.md; sourceTree = "<group>"; };
+		37C1B40978C90623C40C1858 /* FormValidators.podspec */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text; name = FormValidators.podspec; path = ../FormValidators.podspec; sourceTree = "<group>"; };
 		3E2EB11DFAF85C1695590750 /* Pods_FormValidators_Tests.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = Pods_FormValidators_Tests.framework; sourceTree = BUILT_PRODUCTS_DIR; };
-		4B3FBC817B971B884EBDC254 /* LICENSE */ = {isa = PBXFileReference; includeInIndex = 1; name = LICENSE; path = ../LICENSE; sourceTree = "<group>"; };
+		4B3FBC817B971B884EBDC254 /* LICENSE */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text; name = LICENSE; path = ../LICENSE; sourceTree = "<group>"; };
 		5B213F0675C338EB60B9E0E3 /* Pods-FormValidators_Tests.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-FormValidators_Tests.debug.xcconfig"; path = "Pods/Target Support Files/Pods-FormValidators_Tests/Pods-FormValidators_Tests.debug.xcconfig"; sourceTree = "<group>"; };
 		607FACD01AFB9204008FA782 /* FormValidators_Example.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = FormValidators_Example.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		607FACD41AFB9204008FA782 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
@@ -215,6 +215,7 @@
 				TargetAttributes = {
 					607FACCF1AFB9204008FA782 = {
 						CreatedOnToolsVersion = 6.3.1;
+						DevelopmentTeam = 6XKE44ZE6D;
 						LastSwiftMigration = 0820;
 					};
 					607FACE41AFB9204008FA782 = {
@@ -496,6 +497,7 @@
 			baseConfigurationReference = 18D6ED1A37A80C4297023E3B /* Pods-FormValidators_Example.debug.xcconfig */;
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
+				DEVELOPMENT_TEAM = 6XKE44ZE6D;
 				INFOPLIST_FILE = FormValidators/Info.plist;
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks";
 				MODULE_NAME = ExampleApp;
@@ -510,6 +512,7 @@
 			baseConfigurationReference = 205AAB362A69ADE145A76AFF /* Pods-FormValidators_Example.release.xcconfig */;
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
+				DEVELOPMENT_TEAM = 6XKE44ZE6D;
 				INFOPLIST_FILE = FormValidators/Info.plist;
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks";
 				MODULE_NAME = ExampleApp;
