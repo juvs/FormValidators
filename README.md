@@ -1,6 +1,6 @@
 # FormValidators
 
-[![CI Status](http://img.shields.io/travis/juvs/FormValidators.svg?style=flat)](https://travis-ci.org/Juvenal Guzman/FormValidators)
+[![CI Status](http://img.shields.io/travis/juvs/FormValidators.svg?style=flat)](https://travis-ci.org/juvs/FormValidators)
 [![Version](https://img.shields.io/cocoapods/v/FormValidators.svg?style=flat)](http://cocoapods.org/pods/FormValidators)
 [![License](https://img.shields.io/cocoapods/l/FormValidators.svg?style=flat)](http://cocoapods.org/pods/FormValidators)
 [![Platform](https://img.shields.io/cocoapods/p/FormValidators.svg?style=flat)](http://cocoapods.org/pods/FormValidators)
