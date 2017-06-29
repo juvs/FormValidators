@@ -87,12 +87,11 @@ open class FormValidator: ValidatorHandler {
             }
         }
         
-        if allIsValid {
-            for anyObjectValidator in aValidators {
-                let response = anyObjectValidator.isValid()
-                if !response.valid {
-                    allIsValid = false
-                }
+
+        for anyObjectValidator in aValidators {
+            let response = anyObjectValidator.isValid()
+            if !response.valid {
+                allIsValid = false
             }
         }
         

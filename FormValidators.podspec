@@ -8,7 +8,7 @@
 
 Pod::Spec.new do |s|
   s.name             = 'FormValidators'
-  s.version          = '0.2.0'
+  s.version          = '0.3.0'
   s.summary          = 'Validations base value for UITextField.'
   s.homepage         = 'https://github.com/juvs/FormValidators'
   # s.screenshots     = 'www.example.com/screenshots_1', 'www.example.com/screenshots_2'
