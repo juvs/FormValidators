@@ -49,7 +49,7 @@ open class AnyObjectValidator {
         for validator in validators {
             if !validator.isValid(text: text) {
                 if let label = self.detailLabel {
-                    label.text = text
+                    label.text = validator.message
                 }
                 performErrorStyleTransform(validator)
                 lastMessage = text
