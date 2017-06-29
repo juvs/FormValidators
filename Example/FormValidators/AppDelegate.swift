@@ -7,6 +7,7 @@
 //
 
 import UIKit
+import FormValidators
 
 @UIApplicationMain
 class AppDelegate: UIResponder, UIApplicationDelegate {
@@ -16,6 +17,19 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
 
     func application(_ application: UIApplication, didFinishLaunchingWithOptions launchOptions: [UIApplicationLaunchOptionsKey: Any]?) -> Bool {
         // Override point for customization after application launch.
+        
+        //Define global transformers (like Optimus Prime.... lol) for success or error callback...
+        SharedFormValidator.sharedManager().transformers(
+            success: {textField, detailLabel in
+                if let detailLabel = detailLabel {
+                    detailLabel.text = ""
+                }
+        }, error: { textField, detailLabel, validator in
+                if let detailLabel = detailLabel {
+                    detailLabel.text = validator.message
+                }
+        })
+        
         return true
     }
 

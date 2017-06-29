@@ -1,0 +1,9 @@
+/* 
+  Validators.strings
+  Pods
+
+  Created by Juvenal Guzman on 6/28/17.
+
+*/
+
+"NotEmpty.message" = "This field is required"

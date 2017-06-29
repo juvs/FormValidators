@@ -11,7 +11,7 @@ import Foundation
 //-----------------------------------------------------------
 //MARK: - Protocols...
 
-enum ValidatorMessage {
+public enum ValidatorMessage {
     case byDefault
     case none
 }
@@ -24,13 +24,19 @@ public protocol ValidatorType {
     var value: Int { get }
 }
 
-public protocol VariableValidator {
-    func isValid() -> (valid: Bool, message: String)
-    var domain: String? { get }
-}
+//open class BaseValidator {
+//    private var bundle : Bundle!
+//    
+//    func getString(_ key: String) -> String {
+//        if let bundlePath = Bundle.main.path(forResource: "Validators", ofType: "bundle") {
+//            self.bundle = Bundle(path: bundlePath) ?? Bundle.main
+//        }
+//        return NSLocalizedString(key, bundle: bundle, comment: "")
+//    }
+//}
 
 extension ValidatorMessage: ValidatorMessageType {
-    var isDefault: Bool {
+    public var isDefault: Bool {
         switch self {
         case .byDefault:
             return true
@@ -39,7 +45,7 @@ extension ValidatorMessage: ValidatorMessageType {
         }
     }
     
-    var isNone: Bool {
+    public var isNone: Bool {
         switch self {
         case .none:
             return true
@@ -57,186 +63,186 @@ public protocol ValidatorMessageType {
 //-----------------------------------------------------------
 //MARK: - Built-in validators...
 
-class NotEmpty: ValidatorType {
-    private let msg: String
-    private let msgType: ValidatorMessageType
+open class NotEmpty: ValidatorType {
+    private var msg: String
+    private var msgType: ValidatorMessageType
     
-    init(message: String = "Campo obligatorio", type: ValidatorMessage = .byDefault) {
+    public init(message: String = "Campo obligatorio", type: ValidatorMessage = .byDefault) {
         self.msg = message
         self.msgType = type
     }
     
-    func isValid(text: String) -> Bool {
+    public func isValid(text: String) -> Bool {
         return !text.isEmpty
     }
     
-    var name: String { return "NotEmpty" }
+    public var name: String { return "NotEmpty" }
     
-    var messageType: ValidatorMessageType { return self.msgType }
+    public var messageType: ValidatorMessageType { return self.msgType }
     
-    var message: String { return self.msg }
+    public var message: String { return self.msg }
     
-    var value: Int { return  0 }
+    public var value: Int { return  0 }
 }
 
-class ValidEmail: ValidatorType {
+open class ValidEmail: ValidatorType {
     private let msg: String
     private let msgType: ValidatorMessageType
     
-    init(message: String = "Email incorrecto", type: ValidatorMessage = .byDefault) {
+    public init(message: String = "Email incorrecto", type: ValidatorMessage = .byDefault) {
         self.msg = message
         self.msgType = type
     }
     
-    func isValid(text: String) -> Bool {
+    public func isValid(text: String) -> Bool {
         let VALIDATOR_EMAIL_REGEX = "[A-Z0-9a-z._%+-]+@[A-Za-z0-9.-]+\\.[A-Za-z]{2,6}"
         let test = NSPredicate(format: "SELF MATCHES %@", VALIDATOR_EMAIL_REGEX)
         return test.evaluate(with: text)
     }
     
-    var name: String { return "ValidEmail" }
+    public var name: String { return "ValidEmail" }
     
-    var messageType: ValidatorMessageType { return self.msgType }
+    public var messageType: ValidatorMessageType { return self.msgType }
     
-    var message: String { return self.msg }
+    public var message: String { return self.msg }
     
-    var value: Int { return  0 }
+    public var value: Int { return  0 }
 }
 
-class MinLength: ValidatorType {
+open class MinLength: ValidatorType {
     private let min: Int
     private let msg: String
     private let msgType: ValidatorMessageType
     
-    init(min: Int, message: String = "", type: ValidatorMessage = .byDefault) {
+    public init(min: Int, message: String = "", type: ValidatorMessage = .byDefault) {
         let characters = min > 1 ? "caracter(es)" : "caracter"
         self.min = min
         self.msg = message.isEmpty ? "Al menos \(min) \(characters)" : message
         self.msgType = type
     }
     
-    func isValid(text: String) -> Bool {
+    public func isValid(text: String) -> Bool {
         return text.characters.count >= value
     }
     
-    var name: String { return "MinLength" }
+    public var name: String { return "MinLength" }
     
-    var messageType: ValidatorMessageType { return self.msgType }
+    public var messageType: ValidatorMessageType { return self.msgType }
     
-    var message: String { return self.msg }
+    public var message: String { return self.msg }
     
-    var value: Int { return self.min }
+    public var value: Int { return self.min }
 }
 
-class MaxLength: ValidatorType {
+open class MaxLength: ValidatorType {
     private let max: Int
     private let msg: String
     private let msgType: ValidatorMessageType
     
-    init(max: Int, message: String = "", type: ValidatorMessage = .byDefault) {
+    public init(max: Int, message: String = "", type: ValidatorMessage = .byDefault) {
         let characters = max > 1 ? "caracter(es)" : "caracter"
         self.max = max
         self.msg = message.isEmpty ? "Máximo \(max) \(characters)" : message
         self.msgType = type
     }
     
-    func isValid(text: String) -> Bool {
+    public func isValid(text: String) -> Bool {
         return text.characters.count <= value
     }
     
-    var name: String { return "MaxLength" }
+    public var name: String { return "MaxLength" }
     
-    var messageType: ValidatorMessageType { return self.msgType }
+    public var messageType: ValidatorMessageType { return self.msgType }
     
-    var message: String { return self.msg }
+    public var message: String { return self.msg }
     
-    var value: Int { return self.max }
+    public var value: Int { return self.max }
 }
 
-class ExactLength: ValidatorType {
+open class ExactLength: ValidatorType {
     private let len: Int
     private let msg: String
     private let msgType: ValidatorMessageType
     
-    init(len: Int, message: String = "", type: ValidatorMessage = .byDefault) {
+    public init(len: Int, message: String = "", type: ValidatorMessage = .byDefault) {
         let characters = len > 1 ? "caracter(es)" : "caracter"
         self.len = len
         self.msg = message.isEmpty ? "Capture \(len) \(characters)": message
         self.msgType = type
     }
     
-    func isValid(text: String) -> Bool {
+    public func isValid(text: String) -> Bool {
         return text.characters.count == value
     }
     
-    var name: String { return "ExactLength" }
+    public var name: String { return "ExactLength" }
     
-    var messageType: ValidatorMessageType { return self.msgType }
+    public var messageType: ValidatorMessageType { return self.msgType }
     
-    var message: String { return self.msg }
+    public var message: String { return self.msg }
     
-    var value: Int { return self.len }
+    public var value: Int { return self.len }
 }
 
-class MatchRegex: ValidatorType {
+open class MatchRegex: ValidatorType {
     private let regex: String
     private let msg: String
     private let msgType: ValidatorMessageType
     
-    init(regex: String, message: String = "Email incorrecto", type: ValidatorMessage = .byDefault) {
+    public init(regex: String, message: String = "Valor incorrecto", type: ValidatorMessage = .byDefault) {
         self.regex = regex
         self.msg = message
         self.msgType = type
     }
     
-    func isValid(text: String) -> Bool {
+    public func isValid(text: String) -> Bool {
         let test = NSPredicate(format: "SELF MATCHES %@", self.regex)
         return test.evaluate(with: text)
     }
     
-    var name: String { return "MatchRegex" }
+    public var name: String { return "MatchRegex" }
     
-    var messageType: ValidatorMessageType { return self.msgType }
+    public var messageType: ValidatorMessageType { return self.msgType }
     
-    var message: String { return self.msg }
+    public var message: String { return self.msg }
     
-    var value: Int { return  0 }
+    public var value: Int { return  0 }
 }
 
-class CheckPasswords: ValidatorType {
+open class CheckPasswords: ValidatorType {
     private let msg: String
     private let msgType: ValidatorMessageType
     private let password: UITextField!
     
-    init(password: UITextField, message: String = "Las contraseñas no coinciden", type: ValidatorMessage = .byDefault) {
+    public init(password: UITextField, message: String = "Las contraseñas no coinciden", type: ValidatorMessage = .byDefault) {
         self.password = password
         self.msg = message
         self.msgType = type
     }
     
-    func isValid(text: String) -> Bool {
+    public func isValid(text: String) -> Bool {
         return self.password.text == text
     }
     
-    var name: String { return "CheckPasswords" }
+    public var name: String { return "CheckPasswords" }
     
-    var messageType: ValidatorMessageType { return self.msgType }
+    public var messageType: ValidatorMessageType { return self.msgType }
     
-    var message: String { return self.msg }
+    public var message: String { return self.msg }
     
-    var value: Int { return  0 }
+    public var value: Int { return  0 }
 }
 
-class CreditCardDueDateCheck: ValidatorType {
+open class CreditCardDueDateCheck: ValidatorType {
     private let msg: String
     private let msgType: ValidatorMessageType
     
-    init(message: String = "Fecha incorrecta", type: ValidatorMessage = .byDefault) {
+    public init(message: String = "Fecha incorrecta", type: ValidatorMessage = .byDefault) {
         self.msg = message
         self.msgType = type
     }
     
-    func isValid(text: String) -> Bool {
+    public func isValid(text: String) -> Bool {
         return checkRegex(text) && isValidDate(text)
     }
     
@@ -263,29 +269,29 @@ class CreditCardDueDateCheck: ValidatorType {
         return dueDate!.compare(currDate) == .orderedDescending
     }
     
-    var name: String { return "CreditCardDueDateCheck" }
+    public var name: String { return "CreditCardDueDateCheck" }
     
-    var messageType: ValidatorMessageType { return self.msgType }
+    public var messageType: ValidatorMessageType { return self.msgType }
     
-    var message: String { return self.msg }
+    public var message: String { return self.msg }
     
-    var value: Int { return  0 }
+    public var value: Int { return  0 }
 }
 
-class CreditCardCheck: ValidatorType {
+open class CreditCardCheck: ValidatorType {
     private let cleanText: Bool
     private let len: Int
     private let msg: String
     private let msgType: ValidatorMessageType
     
-    init(len: Int = 16, cleanText: Bool = true, message: String = "Tarjeta incorrecta", type: ValidatorMessage = .byDefault) {
+    public init(len: Int = 16, cleanText: Bool = true, message: String = "Tarjeta incorrecta", type: ValidatorMessage = .byDefault) {
         self.msg = message
         self.cleanText = cleanText
         self.len = len
         self.msgType = type
     }
     
-    func isValid(text: String) -> Bool {
+    public func isValid(text: String) -> Bool {
         let number = cleanText ? text.replacingOccurrences(of: " ", with: "", options: .caseInsensitive) : text
         return number.characters.count == len && luhnCheck(number)
     }
@@ -304,11 +310,11 @@ class CreditCardCheck: ValidatorType {
         return sum % 10 == 0
     }
     
-    var name: String { return "CreditCardCheck" }
+    public var name: String { return "CreditCardCheck" }
     
-    var messageType: ValidatorMessageType { return self.msgType }
+    public var messageType: ValidatorMessageType { return self.msgType }
     
-    var message: String { return self.msg }
+    public var message: String { return self.msg }
     
-    var value: Int { return len }
+    public var value: Int { return len }
 }

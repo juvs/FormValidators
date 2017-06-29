@@ -8,7 +8,7 @@
 
 Pod::Spec.new do |s|
   s.name             = 'FormValidators'
-  s.version          = '0.1.0'
+  s.version          = '0.2.0'
   s.summary          = 'Validations base value for UITextField.'
   s.homepage         = 'https://github.com/juvs/FormValidators'
   # s.screenshots     = 'www.example.com/screenshots_1', 'www.example.com/screenshots_2'
@@ -22,8 +22,8 @@ Pod::Spec.new do |s|
   s.source_files = 'FormValidators/Classes/**/*'
   
   # s.resource_bundles = {
-  #   'FormValidators' => ['FormValidators/Assets/*.png']
-  # }
+  #     'FormValidators' => ['FormValidators/Localizations/*.lproj/*.strings']
+  #   }
 
   # s.public_header_files = 'Pod/Classes/**/*.h'
   # s.frameworks = 'UIKit', 'MapKit'

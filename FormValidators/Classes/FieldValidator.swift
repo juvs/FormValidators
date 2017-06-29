@@ -11,25 +11,26 @@ import Foundation
 //-----------------------------------------------------------
 //MARK: - TextFieldValidator encapsulates logic...
 
-class FieldValidator: NSObject, UITextFieldDelegate  {
+open class FieldValidator: NSObject, UITextFieldDelegate  {
     
     private var maxLength: Int
+    private var textField: UITextField!
+    
+    private var lastText: String?
+    private var validated = false
+    private var valid = true
+    private var lastMessage = ""
     
     var validators: [ValidatorType] = []
     var errorStyleTransform: ErrorStyleTransform?
     var successStyleTransform: SucessStyleTransform?
     var returnCallback: ReturnCallback?
     var domain: String?
-    let formValidator: FormValidator?
+    var formValidator: FormValidator?
+    var detailLabel: UILabel?
     
-    private var textField: UITextField!
-    private var lastText: String?
-    private var validated = false
     
-    private var valid = true
-    private var lastMessage = ""
-    
-    init(validators: [ValidatorType] = [], successStyleTransform: SucessStyleTransform? = nil, errorStyleTransform: ErrorStyleTransform? = nil, returnCallback: ReturnCallback? = nil, formValidator: FormValidator? = nil, domain: String? = nil) {
+    init(validators: [ValidatorType] = [], formValidator: FormValidator? = nil, domain: String? = nil, detailLabel: UILabel? = nil, successStyleTransform: SucessStyleTransform? = nil, errorStyleTransform: ErrorStyleTransform? = nil, returnCallback: ReturnCallback? = nil) {
         self.maxLength = 0
         self.validators = validators
         self.errorStyleTransform = errorStyleTransform
@@ -37,6 +38,7 @@ class FieldValidator: NSObject, UITextFieldDelegate  {
         self.formValidator = formValidator
         self.returnCallback = returnCallback
         self.domain = domain
+        self.detailLabel = detailLabel
         
         for validator in validators {
             if validator.name == "MaxLength" { //On max length limits text input characters
@@ -73,6 +75,9 @@ class FieldValidator: NSObject, UITextFieldDelegate  {
         valid = true
         for validator in validators {
             if !validator.isValid(text: text) {
+                if let label = self.detailLabel {
+                    label.text = validator.message
+                }
                 performErrorStyleTransform(validator)
                 lastMessage = text
                 valid = false
@@ -80,28 +85,31 @@ class FieldValidator: NSObject, UITextFieldDelegate  {
             }
         }
         if valid {
+            if let label = self.detailLabel {
+                label.text = ""
+            }
             performSuccessStyleTransform()
         }
     }
     
     private func performSuccessStyleTransform() {
         if let successStyleTransform = self.successStyleTransform {
-            successStyleTransform(self.textField)
+            successStyleTransform(self.textField, self.detailLabel)
         } else if let successStyleTransform = self.formValidator?.successStyleTransform {
-            successStyleTransform(self.textField)
+            successStyleTransform(self.textField, self.detailLabel)
         } else if let successStyleTransform = SharedFormValidator.sharedManager().successStyleTransform {
-            successStyleTransform(self.textField)
+            successStyleTransform(self.textField, self.detailLabel)
         }
     }
     
     private func performErrorStyleTransform(_ validator: ValidatorType) {
         if !validator.messageType.isNone {
             if let errorStyleTransform = self.errorStyleTransform {
-                errorStyleTransform(self.textField, validator)
+                errorStyleTransform(self.textField, self.detailLabel, validator)
             } else if let errorStyleTransform = self.formValidator?.errorStyleTransform {
-                errorStyleTransform(self.textField, validator)
+                errorStyleTransform(self.textField, self.detailLabel, validator)
             } else if let errorStyleTransform = SharedFormValidator.sharedManager().errorStyleTransform {
-                errorStyleTransform(self.textField, validator)
+                errorStyleTransform(self.textField, self.detailLabel, validator)
             }
         }
     }
@@ -111,7 +119,7 @@ class FieldValidator: NSObject, UITextFieldDelegate  {
     ///----------------------------------------------
     
     
-    func textField(_ textField: UITextField, shouldChangeCharactersIn range: NSRange, replacementString string: String) -> Bool {
+    public func textField(_ textField: UITextField, shouldChangeCharactersIn range: NSRange, replacementString string: String) -> Bool {
         if self.maxLength <= 0 {
             return true
         }
@@ -123,13 +131,11 @@ class FieldValidator: NSObject, UITextFieldDelegate  {
         return newLength <= maxLength
     }
     
-    func textFieldShouldBeginEditing(_ textField: UITextField) -> Bool {
-        //        print("TextField should begin editing method called")
+    public func textFieldShouldBeginEditing(_ textField: UITextField) -> Bool {
         return true;
     }
     
-    func textFieldDidBeginEditing(_ textField: UITextField) {
-        //        print("TextField did begin editing method called")
+    public func textFieldDidBeginEditing(_ textField: UITextField) {
         if textField.isSecureTextEntry {
             validated = false
         } else {
@@ -137,27 +143,23 @@ class FieldValidator: NSObject, UITextFieldDelegate  {
         }
     }
     
-    func textFieldDidEndEditing(_ textField: UITextField) {
-        //        print("TextField did end editing method called")
+    public func textFieldDidEndEditing(_ textField: UITextField) {
         let text = textField.text!
         validateField(text)
     }
     
-    func textFieldShouldClear(_ textField: UITextField) -> Bool {
-        //        print("TextField should clear method called")
+    public func textFieldShouldClear(_ textField: UITextField) -> Bool {
         return true;
     }
     
-    func textFieldShouldEndEditing(_ textField: UITextField) -> Bool {
-        //        print("TextField should end editing method called")
+    public func textFieldShouldEndEditing(_ textField: UITextField) -> Bool {
         return true;
     }
     
-    func textFieldShouldReturn(_ textField: UITextField) -> Bool {
-        //        print("TextField should return method called")
+    public func textFieldShouldReturn(_ textField: UITextField) -> Bool {
         //textField.resignFirstResponder();
         if let returnCallback = self.returnCallback {
-            returnCallback(textField)
+            returnCallback(textField, self.detailLabel)
         }
         return true;
     }

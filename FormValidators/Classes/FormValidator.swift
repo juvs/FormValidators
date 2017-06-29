@@ -9,24 +9,14 @@
 import Foundation
 
 //-----------------------------------------------------------
-//MARK: - MainValidator groups all validator...
-public typealias ErrorStyleTransform = ((_ textField: UITextField, _ validator: ValidatorType) -> Void)
-public typealias SucessStyleTransform = ((_ textField: UITextField) -> Void)
+// MARK: - FormValidator groups all validator...
 
-public typealias ReturnCallback = ((_ textField: UITextField) -> ())
-public typealias OnIsValidCallback = (() -> ())
-public typealias OnIsInvalidCallback = (() -> ())
 
-public typealias ErrorStyleTransformAny = ( (_ validator: ValidatorType) -> Void )
-public typealias SucessStyleTransformAny = (() -> Void)
-
-public class FormValidator: ValidatorHandler {
+open class FormValidator: ValidatorHandler {
     
     var fieldValidators: [FieldValidator] = []
     var anyObjectValidators: [AnyObjectValidator] = []
-    
-    override init() {}
-    
+
     func attach(textField: UITextField, fieldValidator: FieldValidator) {
         var localFieldValidator = fieldValidator
         if let index = fieldValidators.index(of: fieldValidator) {
@@ -37,7 +27,7 @@ public class FormValidator: ValidatorHandler {
         localFieldValidator.attachTo(textField)
     }
     
-    func attach(textField: UITextField, validators: [ValidatorType], domain: String? = nil, successStyleTransform: SucessStyleTransform? = nil, errorStyleTransform: ErrorStyleTransform? = nil, returnCallback: ReturnCallback? = nil) {
+    public func attach(textField: UITextField, validators: [ValidatorType], domain: String? = nil, successStyleTransform: SucessStyleTransform? = nil, errorStyleTransform: ErrorStyleTransform? = nil, detailLabel: UILabel? = nil, returnCallback: ReturnCallback? = nil) {
         if validators.count == 0 {
             return
         }
@@ -47,24 +37,25 @@ public class FormValidator: ValidatorHandler {
             fieldValidator.errorStyleTransform = errorStyleTransform
             fieldValidator.returnCallback = returnCallback
             fieldValidator.domain = domain
+            fieldValidator.detailLabel = detailLabel
             attach(textField: textField, fieldValidator: fieldValidator)
         } else {
             if textField.delegate != nil {
                 debugPrint("Field already has delegate and is different from FieldValidator, couldn't attach validators")
             } else {
-                let fieldValidator = FieldValidator(validators: validators, successStyleTransform: successStyleTransform, errorStyleTransform: errorStyleTransform, returnCallback: returnCallback, formValidator: self, domain: domain)
+                let fieldValidator = FieldValidator(validators: validators, formValidator: self, domain: domain, detailLabel: detailLabel, successStyleTransform: successStyleTransform, errorStyleTransform: errorStyleTransform, returnCallback: returnCallback)
                 fieldValidator.attachTo(textField)
                 fieldValidators.append(fieldValidator)
             }
         }
     }
     
-    func attach(value: AnyObject, validators: [ValidatorType], domain: String? = nil, successStyleTransform: SucessStyleTransformAny? = nil, errorStyleTransform: ErrorStyleTransformAny? = nil) {
-        let anyObjectValidator = AnyObjectValidator(value, validators: validators, successStyleTransform: successStyleTransform, errorStyleTransform: errorStyleTransform, domain: domain)
+    public func attach(value: AnyObject, validators: [ValidatorType], domain: String? = nil, detailLabel: UILabel? = nil, successStyleTransform: SucessStyleTransform? = nil, errorStyleTransform: ErrorStyleTransform? = nil) {
+        let anyObjectValidator = AnyObjectValidator(value, validators: validators, domain: domain, detailLabel: detailLabel, successStyleTransform: successStyleTransform, errorStyleTransform: errorStyleTransform)
         anyObjectValidators.append(anyObjectValidator)
     }
     
-    func setReturnCallback(textField: UITextField, callback: @escaping ReturnCallback) {
+    public func setReturnCallback(textField: UITextField, callback: @escaping ReturnCallback) {
         if let fieldValidator = textField.delegate as? FieldValidator {
             fieldValidator.setReturnCallback(textField, callback: callback)
         } else {
@@ -77,7 +68,7 @@ public class FormValidator: ValidatorHandler {
         }
     }
     
-    func isValid(domain: String? = nil) -> Bool {
+    public func isValid(domain: String? = nil) -> Bool {
         var allIsValid = true
         var fValidators = fieldValidators
         var aValidators = anyObjectValidators
@@ -97,8 +88,8 @@ public class FormValidator: ValidatorHandler {
         }
         
         if allIsValid {
-            for variableValidator in aValidators {
-                let response = variableValidator.isValid()
+            for anyObjectValidator in aValidators {
+                let response = anyObjectValidator.isValid()
                 if !response.valid {
                     allIsValid = false
                 }

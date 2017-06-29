@@ -8,11 +8,15 @@
 
 import Foundation
 
-public class ValidatorHandler {
+open class ValidatorHandler {
     public var errorStyleTransform: ErrorStyleTransform? = nil
     public var successStyleTransform: SucessStyleTransform? = nil
     public var onIsValid: OnIsValidCallback? = nil
     public var onIsInvalid: OnIsInvalidCallback? = nil
+    
+    public init() {
+        
+    }
     
     public func transformers(success: SucessStyleTransform? = nil, error: ErrorStyleTransform?) {
         self.successStyleTransform = success

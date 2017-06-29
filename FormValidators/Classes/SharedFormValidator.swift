@@ -8,7 +8,7 @@
 
 import Foundation
 
-public class SharedFormValidator: ValidatorHandler {
+open class SharedFormValidator: ValidatorHandler {
     
     public class func sharedManager() -> SharedFormValidator {
         struct Static {
