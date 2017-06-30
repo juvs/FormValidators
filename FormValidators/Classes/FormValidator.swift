@@ -50,10 +50,16 @@ open class FormValidator: ValidatorHandler {
         }
     }
     
-    public func attach(value: AnyObject, validators: [ValidatorType], domain: String? = nil, detailLabel: UILabel? = nil, successStyleTransform: SucessStyleTransform? = nil, errorStyleTransform: ErrorStyleTransform? = nil) {
-        let anyObjectValidator = AnyObjectValidator(value, validators: validators, domain: domain, detailLabel: detailLabel, successStyleTransform: successStyleTransform, errorStyleTransform: errorStyleTransform)
+    public func attach(object: AnyObject, property: String, validators: [ValidatorType], domain: String? = nil, detailLabel: UILabel? = nil, successStyleTransform: SucessStyleTransform? = nil, errorStyleTransform: ErrorStyleTransform? = nil) {
+        let container = ValidatorObjectContainer(object, property: property)
+        let anyObjectValidator = AnyObjectValidator(container, validators: validators, domain: domain, detailLabel: detailLabel, successStyleTransform: successStyleTransform, errorStyleTransform: errorStyleTransform)
         anyObjectValidators.append(anyObjectValidator)
     }
+    
+//    public func attach(container: ValidatorObjectContainer, validators: [ValidatorType], domain: String? = nil, detailLabel: UILabel? = nil, successStyleTransform: SucessStyleTransform? = nil, errorStyleTransform: ErrorStyleTransform? = nil) {
+//        let anyObjectValidator = AnyObjectValidator(container, validators: validators, domain: domain, detailLabel: detailLabel, successStyleTransform: successStyleTransform, errorStyleTransform: errorStyleTransform)
+//        anyObjectValidators.append(anyObjectValidator)
+//    }
     
     public func setReturnCallback(textField: UITextField, callback: @escaping ReturnCallback) {
         if let fieldValidator = textField.delegate as? FieldValidator {

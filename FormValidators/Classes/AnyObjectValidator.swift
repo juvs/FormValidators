@@ -16,18 +16,18 @@ open class AnyObjectValidator {
     var domain: String?
     var detailLabel: UILabel?
     let formValidator: FormValidator?
-    let value: AnyObject!
+    let container: ValidatorObjectContainer!
     
     private var valid = true
     private var lastMessage = ""
     
-    init(_ value: AnyObject, validators: [ValidatorType] = [], domain: String? = nil, detailLabel: UILabel? = nil, formValidator: FormValidator? = nil, successStyleTransform: SucessStyleTransform? = nil, errorStyleTransform: ErrorStyleTransform? = nil) {
+    init(_ container: ValidatorObjectContainer, validators: [ValidatorType] = [], domain: String? = nil, detailLabel: UILabel? = nil, formValidator: FormValidator? = nil, successStyleTransform: SucessStyleTransform? = nil, errorStyleTransform: ErrorStyleTransform? = nil) {
         self.validators = validators
         self.errorStyleTransform = errorStyleTransform
         self.successStyleTransform = successStyleTransform
         self.domain = domain
         self.formValidator = formValidator
-        self.value = value
+        self.container = container
         self.detailLabel = detailLabel
     }
     
@@ -35,13 +35,13 @@ open class AnyObjectValidator {
     }
     
     func isValid() -> (valid: Bool, message: String) {
-        validateField(valueToString())
+        validateField(container.getValue())
         return (valid, lastMessage)
     }
     
-    private func valueToString() -> String {
-        return value as? String ?? ""
-    }
+//    private func valueToString() -> String {
+//        return value as? String ?? ""
+//    }
     
     private func validateField(_ text: String) {
         lastMessage = ""
